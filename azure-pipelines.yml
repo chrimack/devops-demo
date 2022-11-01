@@ -7,11 +7,11 @@ jobs:
   - job: Build
     displayName: Build and test app
     steps:
-      - task: NodeTool@0
-        displayName: Install Node 14.15.4
-        inputs:
-          versionSource: 'spec'
-          versionSpec: '14.15.4'
+      # - task: NodeTool@0
+      #   displayName: Install Node 14.15.4
+      #   inputs:
+      #     versionSource: 'spec'
+      #     versionSpec: '14.15.4'
 
       - script: |
           echo 'npm ci'
