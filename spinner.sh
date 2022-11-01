@@ -19,6 +19,6 @@ function stop_spinner {
 
 trap stop_spinner EXIT
 
-start_spinner "I'm thinking! "
+start_spinner "Doing stuff... "
 sleep 4
 stop_spinner
