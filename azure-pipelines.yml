@@ -15,7 +15,7 @@ jobs:
 
       - bash: |
           echo 'npm ci'
-          source spinner.sh
+          SECONDS=0; END=4; while (( $SECONDS < $END )) ; do for s in / - \\ \|; do printf "\r$s"; sleep .1; done; done
         displayName: Install frontend dependencies
 
       # - bash: |
