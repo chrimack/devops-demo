@@ -18,7 +18,7 @@ jobs:
 
       - bash: |
           echo 'npm ci'
-          for i in {1..10}; do echo "doing stuff..."; sleep .5; done;
+          ${{ variables.loop }}
         displayName: Install frontend dependencies
 
       - bash: |
@@ -26,10 +26,10 @@ jobs:
           ${{ variables.loop }}
         displayName: Run frontend tests
 
-      # - bash: |
-      #     echo 'npm run build'
-      #     source spinner.sh
-      #   displayName: Build frontend
+      - bash: |
+          echo 'npm run build'
+          ${{ variables.loop }}
+        displayName: Build frontend
 
       # #   - task: S3Upload@1
       # #     displayName: Deploy frontend
@@ -41,20 +41,20 @@ jobs:
       # #       targetFolder: 'fake-folder'
       # #       sourceFolder: 'path/to/frontend/build'
 
-      # - bash: |
-      #     echo 'dotnet restore'
-      #     source spinner.sh
-      #   displayName: Restore backend
+      - bash: |
+          echo 'dotnet restore'
+          ${{ variables.loop }}
+        displayName: Restore backend
 
-      # - bash: |
-      #     echo 'dotnet test'
-      #     source spinner.sh
-      #   displayName: Run backend tests
+      - bash: |
+          echo 'dotnet test'
+          ${{ variables.loop }}
+        displayName: Run backend tests
 
-      # - bash: |
-      #     echo 'dotnet publish'
-      #     source spinner.sh
-      #   displayName: Publish backend
+      - bash: |
+          echo 'dotnet publish'
+          ${{ variables.loop }}
+        displayName: Publish backend
 
       #   - task: BeanstalkDeployApplication@1
       #     displayName: Deploy to Elastic Beanstalk
