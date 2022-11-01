@@ -1,7 +1,7 @@
 trigger: none
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 jobs:
   - job: Build
@@ -18,40 +18,40 @@ jobs:
           source spinner.sh
         displayName: Install frontend dependencies
 
-      - bash: |
-          echo 'npm run test'
-          source spinner.sh
-        displayName: Run frontend tests
+      # - bash: |
+      #     echo 'npm run test'
+      #     source spinner.sh
+      #   displayName: Run frontend tests
 
-      - bash: |
-          echo 'npm run build'
-          source spinner.sh
-        displayName: Build frontend
+      # - bash: |
+      #     echo 'npm run build'
+      #     source spinner.sh
+      #   displayName: Build frontend
 
-      #   - task: S3Upload@1
-      #     displayName: Deploy frontend
-      #     inputs:
-      #       awsCredentials: 'fake-credentials'
-      #       regionName: 'us-east-1'
-      #       bucketName: 'fake-bucket'
-      #       globExpressions: '**'
-      #       targetFolder: 'fake-folder'
-      #       sourceFolder: 'path/to/frontend/build'
+      # #   - task: S3Upload@1
+      # #     displayName: Deploy frontend
+      # #     inputs:
+      # #       awsCredentials: 'fake-credentials'
+      # #       regionName: 'us-east-1'
+      # #       bucketName: 'fake-bucket'
+      # #       globExpressions: '**'
+      # #       targetFolder: 'fake-folder'
+      # #       sourceFolder: 'path/to/frontend/build'
 
-      - bash: |
-          echo 'dotnet restore'
-          source spinner.sh
-        displayName: Restore backend
+      # - bash: |
+      #     echo 'dotnet restore'
+      #     source spinner.sh
+      #   displayName: Restore backend
 
-      - bash: |
-          echo 'dotnet test'
-          source spinner.sh
-        displayName: Run backend tests
+      # - bash: |
+      #     echo 'dotnet test'
+      #     source spinner.sh
+      #   displayName: Run backend tests
 
-      - bash: |
-          echo 'dotnet publish'
-          source spinner.sh
-        displayName: Publish backend
+      # - bash: |
+      #     echo 'dotnet publish'
+      #     source spinner.sh
+      #   displayName: Publish backend
 
       #   - task: BeanstalkDeployApplication@1
       #     displayName: Deploy to Elastic Beanstalk
