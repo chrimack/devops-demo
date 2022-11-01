@@ -3,6 +3,9 @@ trigger: none
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  loop: for i in {1..10}; do echo "doing stuff..."; sleep .5; done;
+
 jobs:
   - job: Build
     displayName: Build and test app
@@ -15,13 +18,13 @@ jobs:
 
       - bash: |
           echo 'npm ci'
-          SECONDS=0; END=4; while (( $SECONDS < $END )) ; do for s in / - \\ \|; do printf "\r$s"; sleep .1; done; done
+          for i in {1..10}; do echo "doing stuff..."; sleep .5; done;
         displayName: Install frontend dependencies
 
-      # - bash: |
-      #     echo 'npm run test'
-      #     source spinner.sh
-      #   displayName: Run frontend tests
+      - bash: |
+          echo 'npm run test'
+          ${{ variables.loop }}
+        displayName: Run frontend tests
 
       # - bash: |
       #     echo 'npm run build'
