@@ -13,17 +13,17 @@ jobs:
       #     versionSource: 'spec'
       #     versionSpec: '14.15.4'
 
-      - script: |
+      - bash: |
           echo 'npm ci'
           source spinner.sh
         displayName: Install frontend dependencies
 
-      - script: |
+      - bash: |
           echo 'npm run test'
           source spinner.sh
         displayName: Run frontend tests
 
-      - script: |
+      - bash: |
           echo 'npm run build'
           source spinner.sh
         displayName: Build frontend
@@ -38,17 +38,17 @@ jobs:
       #       targetFolder: 'fake-folder'
       #       sourceFolder: 'path/to/frontend/build'
 
-      - script: |
+      - bash: |
           echo 'dotnet restore'
           source spinner.sh
         displayName: Restore backend
 
-      - script: |
+      - bash: |
           echo 'dotnet test'
           source spinner.sh
         displayName: Run backend tests
 
-      - script: |
+      - bash: |
           echo 'dotnet publish'
           source spinner.sh
         displayName: Publish backend
