@@ -4,49 +4,61 @@ pool:
   vmImage: 'windows-latest'
 
 jobs:
-    - job: Build
-      displayName: Build and test app
-      steps:
-          - task: NodeTool@0
-            displayName: Install Node 14.15.4
-            inputs:
-              versionSource: 'spec'
-              versionSpec: '14.15.4'
-        
-          - script: echo 'npm ci'
-            displayName: Install frontend dependencies
+  - job: Build
+    displayName: Build and test app
+    steps:
+      - task: NodeTool@0
+        displayName: Install Node 14.15.4
+        inputs:
+          versionSource: 'spec'
+          versionSpec: '14.15.4'
 
-          - script: echo 'npm run test'
-            displayName: Run frontend tests
-        
-          - script: echo 'npm run build'
-            displayName: Build frontend
-        
-        #   - task: S3Upload@1
-        #     displayName: Deploy frontend
-        #     inputs:
-        #       awsCredentials: 'fake-credentials'
-        #       regionName: 'us-east-1'
-        #       bucketName: 'fake-bucket'
-        #       globExpressions: '**'
-        #       targetFolder: 'fake-folder'
-        #       sourceFolder: 'path/to/frontend/build'
+      - script: |
+          echo 'npm ci'
+          source spinner.sh
+        displayName: Install frontend dependencies
 
-          - script: echo 'dotnet restore'
-            displayName: Restore backend
-        
-          - script: echo 'dotnet test'
-            displayName: Run backend tests
+      - script: |
+          echo 'npm run test'
+          source spinner.sh
+        displayName: Run frontend tests
 
-          - script: echo 'dotnet publish'
-            displayName: Publish backend
+      - script: |
+          echo 'npm run build'
+          source spinner.sh
+        displayName: Build frontend
 
-        #   - task: BeanstalkDeployApplication@1
-        #     displayName: Deploy to Elastic Beanstalk
-        #     inputs:
-        #         awsCredentials: 'fake-credentials'
-        #         regionName: 'us-east-1'
-        #         applicationName: 'fake-app'
-        #         environmentName: 'fake-environment'
-        #         applicationType: 'aspnet'
-        #         webDeploymentArchive: 'path/to/release-bundle.zip'
+      #   - task: S3Upload@1
+      #     displayName: Deploy frontend
+      #     inputs:
+      #       awsCredentials: 'fake-credentials'
+      #       regionName: 'us-east-1'
+      #       bucketName: 'fake-bucket'
+      #       globExpressions: '**'
+      #       targetFolder: 'fake-folder'
+      #       sourceFolder: 'path/to/frontend/build'
+
+      - script: |
+          echo 'dotnet restore'
+          source spinner.sh
+        displayName: Restore backend
+
+      - script: |
+          echo 'dotnet test'
+          source spinner.sh
+        displayName: Run backend tests
+
+      - script: |
+          echo 'dotnet publish'
+          source spinner.sh
+        displayName: Publish backend
+
+      #   - task: BeanstalkDeployApplication@1
+      #     displayName: Deploy to Elastic Beanstalk
+      #     inputs:
+      #         awsCredentials: 'fake-credentials'
+      #         regionName: 'us-east-1'
+      #         applicationName: 'fake-app'
+      #         environmentName: 'fake-environment'
+      #         applicationType: 'aspnet'
+      #         webDeploymentArchive: 'path/to/release-bundle.zip'
