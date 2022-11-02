@@ -4,16 +4,15 @@ parameters:
     default: working
 
 steps:
-
   - bash: |
       echo 'npm ci'
       ${{ variables.loop }}
-  displayName: Install frontend dependencies
+    displayName: Install frontend dependencies
 
   - bash: |
       echo 'npm run test'
       ${{ variables.loop }}
-  displayName: Run frontend tests
+    displayName: Run frontend tests
 
   - script: echo '##vso[build.addbuildtag]${{ parameters.tag }}
-  displayName: add environment tag
+    displayName: add environment tag
