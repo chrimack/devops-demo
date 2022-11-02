@@ -5,4 +5,4 @@ jobs:
       - template: steps.yml
         parameters:
           tag: production
-          loop: for i in {1..10}; do echo "doing stuff..."; sleep .5; done;
+          loop: for i in {1..10}; do echo "loading..."; sleep .5; done;

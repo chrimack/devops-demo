@@ -9,7 +9,7 @@ steps:
   - bash: |
       echo 'npm ci'
       ${{ parameters.loop }}
-    displayName: Install frontend dependencies
+    displayName: Install frontend dependencies for ${{ parameters.tag }}
 
   - bash: |
       echo 'npm run test'
