@@ -6,13 +6,13 @@ parameters:
 steps:
 
   - bash: |
-    echo 'npm ci'
-    ${{ variables.loop }}
+      echo 'npm ci'
+      ${{ variables.loop }}
   displayName: Install frontend dependencies
 
   - bash: |
-    echo 'npm run test'
-    ${{ variables.loop }}
+      echo 'npm run test'
+      ${{ variables.loop }}
   displayName: Run frontend tests
 
   - script: echo '##vso[build.addbuildtag]${{ parameters.tag }}
