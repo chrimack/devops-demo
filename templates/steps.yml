@@ -14,5 +14,5 @@ steps:
       ${{ variables.loop }}
     displayName: Run frontend tests
 
-  - script: echo '##vso[build.addbuildtag]${{ parameters.tag }}
+  - script: echo '##vso[build.addbuildtag]${{ parameters.tag }}'
     displayName: add environment tag
