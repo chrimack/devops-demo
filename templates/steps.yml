@@ -1,14 +1,7 @@
 parameters:
-  - name: text
-    type: string
-    default: doing stuff...
-
   - name: tag
     type: string
     default: working
-
-variables:
-  loop: for i in {1..10}; do echo ${{ parameters.text }}; sleep .5; done;
 
 steps:
 

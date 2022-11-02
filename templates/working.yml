@@ -1,8 +1,9 @@
 jobs:
   - job: Build
     displayName: Build app
+    variables:
+      loop: for i in {1..10}; do echo ${{ parameters.text }}; sleep .5; done;
     steps:
       - template: steps.yml
         parameters:
-          text: doing stuff...
           tag: working
