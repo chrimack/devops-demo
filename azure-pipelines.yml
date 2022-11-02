@@ -31,15 +31,15 @@ jobs:
           ${{ variables.loop }}
         displayName: Build frontend
 
-      # #   - task: S3Upload@1
-      # #     displayName: Deploy frontend
-      # #     inputs:
-      # #       awsCredentials: 'fake-credentials'
-      # #       regionName: 'us-east-1'
-      # #       bucketName: 'fake-bucket'
-      # #       globExpressions: '**'
-      # #       targetFolder: 'fake-folder'
-      # #       sourceFolder: 'path/to/frontend/build'
+      #   - task: S3Upload@1
+      #     displayName: Deploy frontend
+      #     inputs:
+      #       awsCredentials: 'fake-credentials'
+      #       regionName: 'us-east-1'
+      #       bucketName: 'fake-bucket'
+      #       globExpressions: '**'
+      #       targetFolder: 'fake-folder'
+      #       sourceFolder: 'path/to/frontend/build'
 
       - bash: |
           echo 'dotnet restore'
