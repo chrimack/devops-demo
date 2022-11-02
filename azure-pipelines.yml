@@ -4,31 +4,30 @@ pool:
   vmImage: 'ubuntu-latest'
 
 parameters:
-  - name: text
+  - name: environment
     type: string
-    default: doing stuff...
+    default: working
     values:
-      - doing stuff...
-      - loading...
-      - waiting...
+      - working
+      - staging
+      - production
 
 variables:
-  loop: for i in {1..10}; do echo ${{ parameters.text }}; sleep .5; done;
+  ${{ if eq( parameters.environment, 'working' ) }}:
+    isWorking: true
+
+  ${{ if eq( parameters.environment, 'staging' ) }}:
+    isStaging: true
+
+  ${{ if eq( parameters.environment, 'production' ) }}:
+    isProduction: true
 
 jobs:
-  - job: Build
-    displayName: Build and test app
-    steps:
+  - ${{ if eq( variables.isWorking, true )}}:
+      - template: templates/working.yml
 
-      - bash: |
-          echo 'npm ci'
-          ${{ variables.loop }}
-        displayName: Install frontend dependencies
+  - ${{ if eq( variables.isStaging, true )}}:
+      - template: templates/staging.yml
 
-      - bash: |
-          echo 'npm run test'
-          ${{ variables.loop }}
-        displayName: Run frontend tests
-
-      - script: echo '##vso[build.addbuildtag]Success
-        displayName: add environment tag
+  - ${{ if eq( variables.isProduction, true )}}:
+      - template: templates/production.yml
