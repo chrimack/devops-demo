@@ -6,62 +6,79 @@ pool:
 variables:
   loop: for i in {1..10}; do echo "doing stuff..."; sleep .5; done;
 
-jobs:
-  - job: Build
-    displayName: Build and test app
-    steps:
-      # - task: NodeTool@0
-      #   displayName: Install Node 14.15.4
-      #   inputs:
-      #     versionSource: 'spec'
-      #     versionSpec: '14.15.4'
-
-      - bash: |
-          echo 'npm ci'
-          ${{ variables.loop }}
+stages:
+  - stage: Dependencies
+    displayName: Dependencies
+    jobs:
+      - job: Dependencies
         displayName: Install frontend dependencies
+        steps:
 
-      - bash: |
-          echo 'npm run test'
-          ${{ variables.loop }}
+          - bash: |
+              echo 'npm ci'
+              ${{ variables.loop }}
+              echo 'file contents' > $(Build.ArtifactStagingDirectory)/app.txt
+            displayName: Install frontend dependencies
+
+          - publish: $(Build.ArtifactStagingDirectory)/app.txt
+            artifact: app
+            displayName: Publish installed dependencies artifact
+
+  - stage: FrontendTest
+    displayName: Frontend tests
+    dependsOn: Dependencies
+    jobs:
+      - job: FrontendTest
         displayName: Run frontend tests
+        steps:
 
-      - bash: |
-          echo 'npm run build'
-          ${{ variables.loop }}
+          - download: current
+            artifact: app
+            displayName: Download frontend artifact
+
+          - bash: |
+              echo 'npm run test'
+              ${{ variables.loop }}
+            displayName: Run frontend tests
+  
+  - stage: FrontendBuild
+    displayName: Frontend build
+    dependsOn: Dependencies
+    jobs:
+      - job: FrontendBuild
         displayName: Build frontend
+        steps:
 
-      # #   - task: S3Upload@1
-      # #     displayName: Deploy frontend
-      # #     inputs:
-      # #       awsCredentials: 'fake-credentials'
-      # #       regionName: 'us-east-1'
-      # #       bucketName: 'fake-bucket'
-      # #       globExpressions: '**'
-      # #       targetFolder: 'fake-folder'
-      # #       sourceFolder: 'path/to/frontend/build'
+          - download: current
+            artifact: app
+            displayName: Download frontend artifact
 
-      - bash: |
-          echo 'dotnet restore'
-          ${{ variables.loop }}
-        displayName: Restore backend
+          - bash: |
+              cat $(Pipeline.Workspace)/app.txt
+              echo 'npm run build'
+              ${{ variables.loop }}
+              echo 'build stuff' > $(Build.ArtifactStagingDirectory)/build.txt
+            displayName: Build frontend
+          
+          - publish: $(Build.ArtifactStagingDirectory)/build.txt
+            artifact: build
+            displayName: Publish build artifact
 
-      - bash: |
-          echo 'dotnet test'
-          ${{ variables.loop }}
-        displayName: Run backend tests
-
-      - bash: |
-          echo 'dotnet publish'
-          ${{ variables.loop }}
-        displayName: Publish backend
-
-      #   - task: BeanstalkDeployApplication@1
-      #     displayName: Deploy to Elastic Beanstalk
-      #     inputs:
-      #         awsCredentials: 'fake-credentials'
-      #         regionName: 'us-east-1'
-      #         applicationName: 'fake-app'
-      #         environmentName: 'fake-environment'
-      #         applicationType: 'aspnet'
-      #         webDeploymentArchive: 'path/to/release-bundle.zip'
+  - stage: StageFour
+    displayName: Stage four
+    dependsOn:
+    - FrontendTest
+    - FrontendBuild
+    jobs:
+      - deployment: FrontendBuild
+        displayName: Build frontend
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                
+                - download: current
+                  artifact: build
+                  displayName: Download build artifact
+                
+                - bash: cat $(Pipeline.Workspace)/build.txt
