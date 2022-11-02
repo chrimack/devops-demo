@@ -30,25 +30,5 @@ jobs:
           ${{ variables.loop }}
         displayName: Run frontend tests
 
-      - bash: |
-          echo 'npm run build'
-          ${{ variables.loop }}
-        displayName: Build frontend
-
-      - bash: |
-          echo 'dotnet restore'
-          ${{ variables.loop }}
-        displayName: Restore backend
-
-      - bash: |
-          echo 'dotnet test'
-          ${{ variables.loop }}
-        displayName: Run backend tests
-
-      - bash: |
-          echo 'dotnet publish'
-          ${{ variables.loop }}
-        displayName: Publish backend
-
       - script: echo '##vso[build.addbuildtag]Success
         displayName: add environment tag
