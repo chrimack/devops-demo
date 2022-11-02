@@ -19,11 +19,6 @@ jobs:
   - job: Build
     displayName: Build and test app
     steps:
-      # - task: NodeTool@0
-      #   displayName: Install Node 14.15.4
-      #   inputs:
-      #     versionSource: 'spec'
-      #     versionSpec: '14.15.4'
 
       - bash: |
           echo 'npm ci'
@@ -40,16 +35,6 @@ jobs:
           ${{ variables.loop }}
         displayName: Build frontend
 
-      #   - task: S3Upload@1
-      #     displayName: Deploy frontend
-      #     inputs:
-      #       awsCredentials: 'fake-credentials'
-      #       regionName: 'us-east-1'
-      #       bucketName: 'fake-bucket'
-      #       globExpressions: '**'
-      #       targetFolder: 'fake-folder'
-      #       sourceFolder: 'path/to/frontend/build'
-
       - bash: |
           echo 'dotnet restore'
           ${{ variables.loop }}
@@ -64,16 +49,6 @@ jobs:
           echo 'dotnet publish'
           ${{ variables.loop }}
         displayName: Publish backend
-
-      #   - task: BeanstalkDeployApplication@1
-      #     displayName: Deploy to Elastic Beanstalk
-      #     inputs:
-      #         awsCredentials: 'fake-credentials'
-      #         regionName: 'us-east-1'
-      #         applicationName: 'fake-app'
-      #         environmentName: 'fake-environment'
-      #         applicationType: 'aspnet'
-      #         webDeploymentArchive: 'path/to/release-bundle.zip'
 
       - script: echo '##vso[build.addbuildtag]Success
         displayName: add environment tag
