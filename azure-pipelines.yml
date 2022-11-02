@@ -54,7 +54,7 @@ stages:
             displayName: Download frontend artifact
 
           - bash: |
-              cat $(Pipeline.Workspace)/app.txt
+              cat $(Pipeline.Workspace)/app/app.txt
               echo 'npm run build'
               ${{ variables.loop }}
               echo 'build stuff' > $(Build.ArtifactStagingDirectory)/build.txt
@@ -71,7 +71,7 @@ stages:
     - FrontendBuild
     jobs:
       - deployment: DeployFrontend
-        displayName: Build frontend
+        displayName: Deploy frontend
         environment: nfpa-link-working
         strategy:
           runOnce:
@@ -82,4 +82,4 @@ stages:
                   artifact: build
                   displayName: Download build artifact
                 
-                - bash: cat $(Pipeline.Workspace)/build.txt
+                - bash: cat $(Pipeline.Workspace)/build/build.txt
