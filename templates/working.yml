@@ -1,0 +1,8 @@
+jobs:
+  - job: Build
+    displayName: Build app
+    steps:
+      - template: steps.yml
+        parameters:
+          text: doing stuff...
+          tag: working
