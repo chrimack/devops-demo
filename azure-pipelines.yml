@@ -16,7 +16,7 @@ stages:
           - bash: |
               echo 'npm ci'
               ${{ variables.loop }}
-              echo 'file contents' > $(Build.ArtifactStagingDirectory)/app.txt
+              echo 'app file contents' > $(Build.ArtifactStagingDirectory)/app.txt
             displayName: Install frontend dependencies
 
           - publish: $(Build.ArtifactStagingDirectory)/app.txt
@@ -54,7 +54,7 @@ stages:
               cat $(Pipeline.Workspace)/app/app.txt
               echo 'npm run build'
               ${{ variables.loop }}
-              echo 'build stuff' > $(Build.ArtifactStagingDirectory)/build.txt
+              echo 'build file contents' > $(Build.ArtifactStagingDirectory)/build.txt
             displayName: Build frontend
 
           - publish: $(Build.ArtifactStagingDirectory)/build.txt
