@@ -65,3 +65,6 @@ jobs:
       #         environmentName: 'fake-environment'
       #         applicationType: 'aspnet'
       #         webDeploymentArchive: 'path/to/release-bundle.zip'
+
+      - script: echo '##vso[build.addbuildtag]Success
+        displayName: add environment tag
