@@ -2,16 +2,18 @@ parameters:
   - name: tag
     type: string
     default: working
+  - name: loop
+    type: string
 
 steps:
   - bash: |
       echo 'npm ci'
-      ${{ variables.loop }}
+      ${{ parameters.loop }}
     displayName: Install frontend dependencies
 
   - bash: |
       echo 'npm run test'
-      ${{ variables.loop }}
+      ${{ parameters.loop }}
     displayName: Run frontend tests
 
   - script: echo '##vso[build.addbuildtag]${{ parameters.tag }}'
